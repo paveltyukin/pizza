@@ -1,7 +1,24 @@
-import { HomePage } from './app/pages/HomePage/HomePage'
 import './assets/scss/app.scss'
+import { Route, Routes } from 'react-router-dom'
+import { Header } from './pages/HomePage/Header'
+import { HomePage } from './pages/HomePage'
+import { NotFoundPage } from './pages/NotFoundPage'
+import { CartPage } from './pages/CartPage'
 
 export const  App = () => {
-  return <HomePage/>
-  
+
+  return (
+    <div className="wrapper">
+      <Header />
+      <div className="content">
+        <div className="container">
+          <Routes>
+            <Route path='/' element={<HomePage />}/>
+            <Route path='/cart' element={<CartPage/>}/>
+            <Route path='*' element={<NotFoundPage/>}/>
+          </Routes>
+        </div>
+      </div>
+    </div>
+  )
 }

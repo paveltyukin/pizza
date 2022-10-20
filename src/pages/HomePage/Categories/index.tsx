@@ -1,4 +1,6 @@
 import React from 'react'
+import { useAppDispatch, useAppSelector } from '../../../app/hooks'
+import { selectCategoryId, setCategoryId } from '../../../features/pizza/pizzaSlice'
 
 const categories = [
   'Все',
@@ -10,8 +12,8 @@ const categories = [
 ]
 
 export const Categories = () => {
-
-  const [categoryIndex, setCategoryIndex] = React.useState(0)
+  const categoryId = useAppSelector(selectCategoryId)
+  const dispatch = useAppDispatch()
 
   return (
     <div className="categories">
@@ -19,9 +21,9 @@ export const Categories = () => {
         {categories.map((category, idx) => {
           return (
             <li
-              onClick={() => setCategoryIndex(idx)}
+              onClick={() => dispatch(setCategoryId(idx))}
               key={idx}
-              className={idx === categoryIndex ? 'active' : ''}
+              className={idx === categoryId ? 'active' : ''}
             >{category}</li>
           )
         })}
