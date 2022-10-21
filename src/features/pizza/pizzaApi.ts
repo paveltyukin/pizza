@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Pizza } from './types'
-import { setPizzas } from './pizzaSlice'
 
 export const pizzaApi = createApi({
   reducerPath: 'pizzaApi',
@@ -10,10 +9,6 @@ export const pizzaApi = createApi({
       query(name) {
         return name
       },
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled
-        dispatch(setPizzas(data))
-      }
     }),
   }),
 })

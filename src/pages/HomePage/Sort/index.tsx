@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { selectSort, setSort } from '../../../features/pizza/pizzaSlice'
 import { sortList } from '../../../app/constants'
 
-
 export const Sort = () => {
   const [open, setOpen] = useState(false)
   const sort = useAppSelector(selectSort)

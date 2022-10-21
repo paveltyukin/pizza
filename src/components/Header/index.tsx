@@ -1,8 +1,13 @@
-import logo from '../../../assets/images/pizza-logo.svg'
+import logo from '../../assets/images/pizza-logo.svg'
 import { Link } from 'react-router-dom'
-import { Search } from '../Search'
+import { Search } from '../../pages/HomePage/Search'
+import { useAppSelector } from '../../app/hooks'
+import { selectAllPizzaCount, selectTotalPrice } from '../../features/cart/cartSlice'
 
 export const Header = () => {
+  const totalPrice = useAppSelector(selectTotalPrice)
+  const pizzaCount = useAppSelector(selectAllPizzaCount)
+
   return (
     <div className="header">
       <div className="container">
@@ -18,7 +23,7 @@ export const Header = () => {
         <Search />
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
-            <span>520 ₽</span>
+            <span>{totalPrice} ₽</span>
             <div className="button__delimiter"></div>
             <svg
               width="18"
@@ -49,7 +54,7 @@ export const Header = () => {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>3</span>
+            <span>{pizzaCount}</span>
           </Link>
         </div>
       </div>

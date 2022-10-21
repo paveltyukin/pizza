@@ -1,10 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import pizzaReducer from '../features/pizza/pizzaSlice'
+import cartReducer from '../features/cart/cartSlice'
 import { pizzaApi } from '../features/pizza/pizzaApi'
+import { setupListeners } from '@reduxjs/toolkit/query'
 
 export const store = configureStore({
   reducer: {
     pizza: pizzaReducer,
+    cart: cartReducer,
     [ pizzaApi.reducerPath ]: pizzaApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -12,11 +15,8 @@ export const store = configureStore({
 
 })
 
+setupListeners(store.dispatch)
+
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
+

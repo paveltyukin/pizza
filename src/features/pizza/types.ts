@@ -15,6 +15,7 @@ export interface PizzaState {
     sort: SortListItem
     currentPage: number
     pizzas: Pizza[]
+    isLoading: boolean
 }
 
 export interface SortListItem {

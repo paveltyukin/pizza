@@ -1,6 +1,6 @@
 import './assets/scss/app.scss'
 import { Route, Routes } from 'react-router-dom'
-import { Header } from './pages/HomePage/Header'
+import { Header } from './components/Header'
 import { HomePage } from './pages/HomePage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { CartPage } from './pages/CartPage'

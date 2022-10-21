@@ -1,11 +1,31 @@
 import $class from './Search.module.scss'
-import { ChangeEvent } from 'react'
+import { ChangeEvent, useCallback,  useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { selectSearch, setSearch } from '../../../features/pizza/pizzaSlice'
 
 export const Search = () => {
+  const [searchValue, setSearchValue] = useState('')
   const search = useAppSelector(selectSearch)
   const dispatch = useAppDispatch()
+
+  const updateSearchValue = useCallback(
+    (str: string) => {
+      setTimeout(() => {
+        dispatch(setSearch(str))
+      }, 1000)
+    },
+    []
+  )
+
+  const onChangeSearchValue = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value)
+    updateSearchValue(e.target.value)
+  }
+
+  const clearSearchValue = () => {
+    setSearchValue('')
+    dispatch(setSearch(''))
+  }
 
   return (
     <div className={$class.root}>
@@ -18,15 +38,15 @@ export const Search = () => {
         </svg>
       </label>
       <input
-        value={search}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => dispatch(setSearch(e.target.value))}
+        value={searchValue}
+        onChange={onChangeSearchValue}
         id='global-search'
         className={$class.input}
         placeholder='Поиск пиццы'
       />
       {search && (
         <svg
-          onClick={() => dispatch(setSearch(''))}
+          onClick={clearSearchValue}
           className={$class.closeIcon}
           viewBox="0 0 32 32"
           xmlns="http://www.w3.org/2000/svg"

@@ -8,7 +8,8 @@ const initialState: PizzaState = {
   categoryId: 0,
   sort: sortList[ 3 ],
   currentPage: 1,
-  pizzas: []
+  pizzas: [],
+  isLoading: false
 }
 
 export const pizzaSlice = createSlice({
@@ -30,15 +31,19 @@ export const pizzaSlice = createSlice({
     setPizzas: (state, { payload }: PayloadAction<Pizza[]>) => {
       state.pizzas = payload
     },
+    setLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.isLoading = payload
+    },
   },
 })
 
-export const { setCategoryId, setSearch, setSort, setCurrentPage, setPizzas } = pizzaSlice.actions
+export const { setCategoryId, setSearch, setSort, setCurrentPage, setPizzas, setLoading } = pizzaSlice.actions
 
 export const selectCategoryId = (state: RootState) => state.pizza.categoryId
 export const selectSearch = (state: RootState) => state.pizza.search
 export const selectSort = (state: RootState) => state.pizza.sort
 export const selectCurrentPage = (state: RootState) => state.pizza.currentPage
 export const selectPizzas = (state: RootState) => state.pizza.pizzas
+export const selectLoading = (state: RootState) => state.pizza.isLoading
 
 export default pizzaSlice.reducer

@@ -8,3 +8,6 @@ export const sortList: SortListItem[] = [
   { name: 'алфавиту (по убыванию)', sortProperty: 'title', orderType: 'desc' },
   { name: 'алфавиту (по возрастанию)', sortProperty: 'title', orderType: 'asc' }
 ]
+
+export const typeNames = ['тонкое', 'традиционное']
+export const sizes = [26, 30, 40]

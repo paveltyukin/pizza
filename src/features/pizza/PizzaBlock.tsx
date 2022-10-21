@@ -1,17 +1,39 @@
 import React, { useState } from 'react'
-import { Pizza } from '../../../features/pizza/types'
+import { Pizza } from './types'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { addItem, selectItemCount } from '../cart/cartSlice'
+import { CartItemProps } from '../cart/types'
+import { typeNames } from '../../app/constants'
 
 export type PizzaBlockProps  = Pizza & { children?: React.ReactNode }
 
-const typeNames = [
-  'тонкое',
-  'традиционное'
-]
-
 export const PizzaBlock = ({ id, imageUrl, title, sizes, types, price }: PizzaBlockProps) => {
-  const [pizzaCount, setPizzaCount] = useState(0)
   const [doughType, setDoughType] = useState(0)
   const [diameter, setDiameter] = useState(0)
+  const dispatch = useAppDispatch()
+  const currentItemCount = useAppSelector(selectItemCount(id, doughType, diameter))
+
+  const onCLickAddPizzaToCart = () => {
+    const itemForAddToCart: CartItemProps = {
+      id,
+      imageUrl,
+      title,
+      price,
+      type: doughType,
+      size: diameter,
+      count: 1
+    }
+
+    dispatch(addItem(itemForAddToCart))
+  }
+
+  const updateDiameter = (idx: number) => {
+    setDiameter(idx)
+  }
+
+  const updateDoughType = (idx: number) => {
+    setDoughType(idx)
+  }
 
   return (
     <div className='pizza-block-wrapper'>
@@ -28,7 +50,7 @@ export const PizzaBlock = ({ id, imageUrl, title, sizes, types, price }: PizzaBl
               <li
                 key={type}
                 className={doughType === idx ? 'active' : ''}
-                onClick={() => setDoughType(idx)}
+                onClick={() => updateDoughType(idx)}
               >{typeNames[ type ]}</li>
             ))}
           </ul>
@@ -37,7 +59,7 @@ export const PizzaBlock = ({ id, imageUrl, title, sizes, types, price }: PizzaBl
               <li
                 key={size}
                 className={diameter === idx ? 'active' : ''}
-                onClick={() => setDiameter(idx)}
+                onClick={() => updateDiameter(idx)}
               >{size} см.</li>
             ))}
           </ul>
@@ -45,7 +67,7 @@ export const PizzaBlock = ({ id, imageUrl, title, sizes, types, price }: PizzaBl
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} ₽</div>
           <button
-            onClick={() => setPizzaCount(pizzaCount + 1)}
+            onClick={onCLickAddPizzaToCart}
             className="button button--outline button--add"
           >
             <svg
@@ -61,7 +83,7 @@ export const PizzaBlock = ({ id, imageUrl, title, sizes, types, price }: PizzaBl
               />
             </svg>
             <span>Добавить</span>
-            <i>{pizzaCount}</i>
+            <i>{currentItemCount}</i>
           </button>
         </div>
       </div>

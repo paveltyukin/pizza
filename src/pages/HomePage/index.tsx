@@ -1,16 +1,10 @@
 import { Categories } from './Categories'
-import { PizzaBlock } from './PizzaBlock'
+import { PizzaBlock } from '../../features/pizza/PizzaBlock'
 import { Sort } from './Sort'
 import { useEffect } from 'react'
-import { Skeleton } from './PizzaBlock/Skeleton'
+import { Skeleton } from '../../features/pizza/Skeleton'
 import { Pagination } from './Pagination'
-import {
-  selectCategoryId,
-  selectCurrentPage,
-  selectPizzas,
-  selectSearch,
-  selectSort
-} from '../../features/pizza/pizzaSlice'
+import { selectCategoryId, selectCurrentPage, selectSearch, selectSort } from '../../features/pizza/pizzaSlice'
 import { useAppSelector } from '../../app/hooks'
 import { useGetPizzasQuery } from '../../features/pizza/pizzaApi'
 import { useNavigate } from 'react-router-dom'
@@ -29,11 +23,10 @@ export const HomePage = () => {
   const sort = useAppSelector(selectSort)
   const currentPage = useAppSelector(selectCurrentPage)
   const search = useAppSelector(selectSearch)
-  const pizzas = useAppSelector(selectPizzas)
 
   const navigate = useNavigate()
   const searchParams = location.search
-  useGetPizzasQuery(searchParams)
+  const { data, isLoading } = useGetPizzasQuery(searchParams)
 
   useEffect(() => {
     const urlParams: UrlParams = {}
@@ -70,9 +63,9 @@ export const HomePage = () => {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {
-          !pizzas.length
+          isLoading
             ? [... new Array(6)].map((_, idx) => <Skeleton key={idx}/>)
-            : pizzas.map(pizza => <PizzaBlock key={pizza.id} {...pizza} />)
+            : data?.map(pizza => <PizzaBlock key={pizza.id} {...pizza} />)
         }
       </div>
       <Pagination />
